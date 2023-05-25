@@ -15,12 +15,12 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "8888:80"
+      - "80:80"
     networks:
       - signup
 
   frontend:
-    image: signup-frontend
+    image: hp4129889/signup:frontend
     container_name: signup-frontend
     restart: always
     networks:
@@ -29,7 +29,7 @@ services:
   backend:
     depends_on:
       - postgres
-    image: signup-backend
+    image: hp4129889/signup:backend
     container_name: signup-backend
     command: sh -c "yarn migrate:r && yarn start"
     restart: always
@@ -49,6 +49,7 @@ services:
       - MAILER_CLIENTID=${MAILER_CLIENTID}
       - MAILER_CLIENTSECRET=${MAILER_CLIENTSECRET}
       - MAILER_REFRESH_TOKEN=${MAILER_REFRESH_TOKEN}
+      - MAILER_REDIRECT_URI=${MAILER_REDIRECT_URI}
     networks:
       - signup
 
@@ -57,7 +58,7 @@ services:
     container_name: signup-postgres
     restart: always
     ports:
-      - "5432:${POSTGRES_PORT}"
+      - "${POSTGRES_PORT}:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -75,6 +76,6 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
     ports:
-      - "8081:80"
+      - "${PGADMIN_PORT}:80"
     networks:
       - signup
