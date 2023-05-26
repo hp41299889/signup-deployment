@@ -53,6 +53,13 @@ services:
     networks:
       - signup
 
+  background-service-frontend:
+    image: hp4129889/signup:background-service-frontend
+    container_name: signup-background-service-frontend
+    restart: always
+    networks:
+      - signup
+
   postgres:
     image: postgres
     container_name: signup-postgres
