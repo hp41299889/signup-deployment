@@ -61,6 +61,13 @@ services:
     networks:
       - signup
 
+  checkin:
+    image: hp4129889/signup:checkin
+    container_name: signup-checkin
+    restart: always
+    networks:
+      - signup
+
   postgres:
     image: postgres
     container_name: signup-postgres
